@@ -43,6 +43,44 @@ some of the most common sources of errors.
 
 Test your code by running `grunt test`.
 
+## Notes on Wei's solution
+```javascript
+
+const sumLines = (filename, callback) => {
+  // define sum in the outer scope
+  // start sum out as 0
+  let sum = 0;
+  // let's read a file <3
+  fs.readFile(filename, 'utf8', (err, data) => {
+    // if there's an error reading the file, console error
+    if (err) {
+      console.error(err.stack);
+      return;
+    }
+    // define array as the data in our file split into an array by new lines
+    let array = data.split('\n');
+    // for each element (num) in the array
+    // add it to the sum (which starts out as 0)
+    // and reassign sum as that new number
+    array.forEach((num) => {
+      sum += +num;
+    });
+    // if the sum is legit, we can callback the sum
+    // the error is null if it works, obvi LOL
+    if (sum) {
+      callback(null, sum);
+      // log our sum, bc why not
+      console.log(sum);
+    }
+    // otherwise callback the error that tells us the line isn't a number!
+    else {
+      callback(new Error('line is not a number.'));
+    }
+  });
+};
+
+```
+
 ## [License](LICENSE)
 
 1.  All content is licensed under a CC­BY­NC­SA 4.0 license.
